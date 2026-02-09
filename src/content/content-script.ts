@@ -221,9 +221,9 @@ const setupMutationObserver = (): MutationObserver => {
 /**
  * Set up event listeners on the page
  */
-const setupEventListeners = (): void => {
+const _setupEventListeners = (): void => {
   // Example: Listen for clicks
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', (_event) => {
     // Handle click events if needed
   });
 
@@ -271,4 +271,5 @@ export {
   injectStyle,
   createFloatingElement,
   setupMutationObserver,
+  _setupEventListeners as setupEventListeners,
 };

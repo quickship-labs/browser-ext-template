@@ -56,10 +56,8 @@ const createChromeMock = () => ({
   },
 });
 
-declare global {
-  // eslint-disable-next-line no-var
-  var chrome: ReturnType<typeof createChromeMock>;
-}
+// Chrome mock type for testing
+type ChromeMock = ReturnType<typeof createChromeMock>;
 
 describe('Storage Helpers', () => {
   beforeEach(() => {
@@ -68,7 +66,7 @@ describe('Storage Helpers', () => {
     Object.keys(mockLocalStorage).forEach((key) => delete mockLocalStorage[key]);
 
     // Setup chrome mock
-    globalThis.chrome = createChromeMock();
+    (globalThis as unknown as { chrome: ChromeMock }).chrome = createChromeMock();
   });
 
   afterEach(() => {
@@ -79,7 +77,7 @@ describe('Storage Helpers', () => {
     it('should return stored value when it exists', async () => {
       mockStorage['testKey'] = 'testValue';
 
-      const result = await getStorageValue('userSettings', 'default');
+      await getStorageValue('userSettings', 'default');
 
       expect(chrome.storage.sync.get).toHaveBeenCalledWith('userSettings');
     });
